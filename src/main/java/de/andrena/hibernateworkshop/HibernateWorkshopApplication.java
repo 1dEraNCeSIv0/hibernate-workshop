@@ -1,5 +1,6 @@
 package de.andrena.hibernateworkshop;
 
+import de.andrena.hibernateworkshop.persistence.entity.Book;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
