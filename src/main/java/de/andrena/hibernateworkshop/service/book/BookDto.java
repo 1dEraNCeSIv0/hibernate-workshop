@@ -1,6 +1,7 @@
-package de.andrena.hibernateworkshop.service.dto;
+package de.andrena.hibernateworkshop.service.book;
 
-import de.andrena.hibernateworkshop.persistence.entity.Book;
+import de.andrena.hibernateworkshop.persistence.book.Book;
+import de.andrena.hibernateworkshop.service.author.AuthorDto;
 
 import java.util.UUID;
 

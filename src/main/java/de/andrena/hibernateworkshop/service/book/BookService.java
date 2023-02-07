@@ -1,7 +1,6 @@
-package de.andrena.hibernateworkshop.service;
+package de.andrena.hibernateworkshop.service.book;
 
-import de.andrena.hibernateworkshop.persistence.repository.BookRepository;
-import de.andrena.hibernateworkshop.service.dto.BookDto;
+import de.andrena.hibernateworkshop.persistence.book.BookRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 

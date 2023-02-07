@@ -1,8 +1,7 @@
-package de.andrena.hibernateworkshop.service;
+package de.andrena.hibernateworkshop.service.author;
 
 import de.andrena.hibernateworkshop.exception.NotFoundException;
-import de.andrena.hibernateworkshop.persistence.repository.AuthorRepository;
-import de.andrena.hibernateworkshop.service.dto.AuthorDto;
+import de.andrena.hibernateworkshop.persistence.author.AuthorRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 

@@ -1,5 +1,6 @@
-package de.andrena.hibernateworkshop.persistence.entity;
+package de.andrena.hibernateworkshop.persistence.author;
 
+import de.andrena.hibernateworkshop.persistence.book.Book;
 import jakarta.persistence.*;
 
 import java.util.List;

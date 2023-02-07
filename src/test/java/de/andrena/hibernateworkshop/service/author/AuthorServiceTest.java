@@ -1,9 +1,9 @@
-package de.andrena.hibernateworkshop.service;
+package de.andrena.hibernateworkshop.service.author;
 
-import de.andrena.hibernateworkshop.persistence.entity.Author;
-import de.andrena.hibernateworkshop.persistence.entity.Book;
-import de.andrena.hibernateworkshop.service.dto.AuthorDto;
-import de.andrena.hibernateworkshop.service.dto.BookDto;
+import de.andrena.hibernateworkshop.persistence.author.Author;
+import de.andrena.hibernateworkshop.persistence.book.Book;
+import de.andrena.hibernateworkshop.service.book.BookDto;
+import de.andrena.hibernateworkshop.testinfrastructure.IntegrationTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 

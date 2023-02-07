@@ -1,6 +1,5 @@
-package de.andrena.hibernateworkshop.persistence.repository;
+package de.andrena.hibernateworkshop.persistence.book;
 
-import de.andrena.hibernateworkshop.persistence.entity.Book;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;

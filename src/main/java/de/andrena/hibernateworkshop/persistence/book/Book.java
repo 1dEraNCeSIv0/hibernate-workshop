@@ -1,5 +1,6 @@
-package de.andrena.hibernateworkshop.persistence.entity;
+package de.andrena.hibernateworkshop.persistence.book;
 
+import de.andrena.hibernateworkshop.persistence.author.Author;
 import jakarta.persistence.*;
 
 import java.util.UUID;
