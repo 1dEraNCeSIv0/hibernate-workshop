@@ -1,16 +1,13 @@
 package de.andrena.hibernateworkshop.service.author;
 
-import de.andrena.hibernateworkshop.persistence.author.Author;
-import de.andrena.hibernateworkshop.persistence.book.Book;
-import de.andrena.hibernateworkshop.service.book.BookDto;
 import de.andrena.hibernateworkshop.testinfrastructure.IntegrationTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.stream.IntStream;
 
-import static java.util.UUID.randomUUID;
+import static de.andrena.hibernateworkshop.testinfrastructure.AuthorBuilder.randomAuthor;
+import static de.andrena.hibernateworkshop.testinfrastructure.AuthorDtoBuilder.authorDtoFrom;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class AuthorServiceTest extends IntegrationTest {
@@ -20,21 +17,41 @@ class AuthorServiceTest extends IntegrationTest {
 
     // TODO: 06.02.2023 Go over all tests, ensure consistent style
     @Test
-    void getAuthor() {
-        var authorId = randomUUID();
-        var bookId = randomUUID();
+    void getAuthor_OneBook() {
+        var author = randomAuthor().withRandomBook().build();
+        authorRepository.save(author);
 
-        var author = new Author(authorId, "name", "address", new ArrayList<>());
-        var book = new Book(bookId, "title", author);
-        author.getBooks().add(book);
+        var authorDto = classUnderTest.getAuthor(author.getId());
+
+        var expectedAuthorDto = authorDtoFrom(author).build();
+        assertThat(authorDto).isEqualTo(expectedAuthorDto);
+    }
+
+    @Test
+    void getAuthor_TwoBooks() {
+        var author = randomAuthor()
+                .withRandomBook()
+                .withRandomBook()
+                .build();
+        authorRepository.save(author);
+
+        var authorDto = classUnderTest.getAuthor(author.getId());
+
+        var expectedAuthorDto = authorDtoFrom(author).build();
+        assertThat(authorDto).isEqualTo(expectedAuthorDto);
+    }
+
+    @Test
+    void getAuthor_OverTwoHundredBooks() {
+        var authorBuilder = randomAuthor();
+        IntStream.range(0, 201).forEach(i -> authorBuilder.withRandomBook());
+        var author = authorBuilder.build();
 
         authorRepository.save(author);
 
-        var expectedBookDto = new BookDto(bookId, "title", null);
-        var expectedAuthorDto = new AuthorDto(authorId, "name", "address", List.of(expectedBookDto));
+        var authorDto = classUnderTest.getAuthor(author.getId());
 
-        var authorDto = classUnderTest.getAuthor(authorId);
-
+        var expectedAuthorDto = authorDtoFrom(author).build();
         assertThat(authorDto).isEqualTo(expectedAuthorDto);
     }
 

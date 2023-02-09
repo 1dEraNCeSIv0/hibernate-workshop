@@ -26,16 +26,18 @@ public class TestLoggingAspect {
 
     @Around("allServiceMethods()")
     Object showSqlLogs(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
-        System.out.println("THIS IS CALLED");
-        sqlLogLevel(LogLevel.DEBUG);
+        sqlLogLevel(LogLevel.TRACE);
         Object result = proceedingJoinPoint.proceed();
         sqlLogLevel(LogLevel.INFO);
         return result;
     }
 
+    // TODO Ruben Gehring 08.02.2023: Simplify
     private void sqlLogLevel(LogLevel level) {
         LoggerGroup loggers = loggerGroups.get("sql");
         loggers.configureLogLevel(level, loggingSystem::setLogLevel);
+//        loggingSystem.setLogLevel("org.hibernate.SQL", level);
+//        loggingSystem.setLogLevel("org.hibernate.orm.jdbc.bind", level);
     }
 
 }

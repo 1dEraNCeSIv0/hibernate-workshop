@@ -1,12 +1,18 @@
 package de.andrena.hibernateworkshop.persistence.author;
 
 import de.andrena.hibernateworkshop.persistence.book.Book;
-import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import org.hibernate.annotations.BatchSize;
 
 import java.util.List;
 import java.util.UUID;
 
 @Entity
+// TODO Ruben Gehring 08.02.2023: Lever 3?
+@BatchSize(size = 100)
 public class Author {
 
     @Id
@@ -15,8 +21,8 @@ public class Author {
     private String name;
     private String address;
 
-    @OneToMany(cascade = {CascadeType.MERGE, CascadeType.REMOVE})
-    @JoinColumn(referencedColumnName = "id")
+    // TODO Ruben Gehring 08.02.2023: Lever 2
+    @OneToMany(cascade = {CascadeType.MERGE, CascadeType.REMOVE}, mappedBy = "author")
     private List<Book> books;
 
     public Author() {}
