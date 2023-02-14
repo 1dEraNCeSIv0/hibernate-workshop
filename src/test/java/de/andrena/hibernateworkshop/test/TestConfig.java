@@ -1,8 +1,8 @@
-package de.andrena.hibernateworkshop.testinfrastructure;
+package de.andrena.hibernateworkshop.test;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 @Configuration
 @EnableAspectJAutoProxy
-public class TestAopConfig {}
+public class TestConfig {}

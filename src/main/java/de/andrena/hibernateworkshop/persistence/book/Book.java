@@ -1,7 +1,10 @@
 package de.andrena.hibernateworkshop.persistence.book;
 
 import de.andrena.hibernateworkshop.persistence.author.Author;
-import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -14,11 +17,8 @@ public class Book {
 
     private String title;
 
-    // TODO Ruben Gehring 08.02.2023: Lever 1
     // TODO Ruben Gehring 08.02.2023: Consider lazying this for performance reasons.
-    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
-    // TODO Ruben Gehring 08.02.2023: Maybe I can drop the join column because the default is the same?
-    @JoinColumn(name = "author_id")
+    @ManyToOne(cascade = CascadeType.MERGE)
     private Author author;
 
     public Book() {

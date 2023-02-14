@@ -1,13 +1,14 @@
-package de.andrena.hibernateworkshop.testinfrastructure;
+package de.andrena.hibernateworkshop.test.author;
 
 import de.andrena.hibernateworkshop.persistence.author.Author;
 import de.andrena.hibernateworkshop.persistence.book.Book;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
-import static de.andrena.hibernateworkshop.testinfrastructure.BookBuilder.randomBook;
-import static de.andrena.hibernateworkshop.testinfrastructure.StringUtil.withRandomSuffix;
+import static de.andrena.hibernateworkshop.test.StringUtil.withRandomSuffix;
+import static de.andrena.hibernateworkshop.test.book.BookBuilder.randomBook;
 import static java.util.UUID.randomUUID;
 
 public final class AuthorBuilder {
@@ -46,6 +47,14 @@ public final class AuthorBuilder {
     public AuthorBuilder withRandomBook() {
         var book = randomBook().withAuthor(author).build();
         author.getBooks().add(book);
+        return this;
+    }
+
+    public AuthorBuilder withRandomBooks(int number) {
+        var books = IntStream.range(0, number)
+                .mapToObj(i -> randomBook().withAuthor(author).build())
+                .toList();
+        author.getBooks().addAll(books);
         return this;
     }
 

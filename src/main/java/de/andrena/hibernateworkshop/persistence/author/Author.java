@@ -5,14 +5,13 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
-import org.hibernate.annotations.BatchSize;
 
 import java.util.List;
 import java.util.UUID;
 
 @Entity
-// TODO Ruben Gehring 08.02.2023: Lever 3?
-@BatchSize(size = 100)
+// TODO Ruben Gehring 08.02.2023: Lever 2 (Book -> Author ManyToOne)
+//@BatchSize(size = 100)
 public class Author {
 
     @Id
@@ -21,8 +20,10 @@ public class Author {
     private String name;
     private String address;
 
-    // TODO Ruben Gehring 08.02.2023: Lever 2
+    // TODO Ruben Gehring 08.02.2023: Lever 1
     @OneToMany(cascade = {CascadeType.MERGE, CascadeType.REMOVE}, mappedBy = "author")
+//    @Fetch(FetchMode.SELECT)
+//    @BatchSize(size = 100)
     private List<Book> books;
 
     public Author() {}

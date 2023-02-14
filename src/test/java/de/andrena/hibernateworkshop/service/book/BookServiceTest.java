@@ -1,16 +1,14 @@
 package de.andrena.hibernateworkshop.service.book;
 
-import de.andrena.hibernateworkshop.persistence.book.Book;
-import de.andrena.hibernateworkshop.testinfrastructure.IntegrationTest;
+import de.andrena.hibernateworkshop.test.IntegrationTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import java.util.stream.IntStream;
 
-import static de.andrena.hibernateworkshop.testinfrastructure.AuthorBuilder.randomAuthor;
-import static de.andrena.hibernateworkshop.testinfrastructure.BookBuilder.randomBook;
-import static de.andrena.hibernateworkshop.testinfrastructure.BookDtoBuilder.bookDtoFrom;
+import static de.andrena.hibernateworkshop.test.book.BookBuilder.randomBook;
+import static de.andrena.hibernateworkshop.test.book.BookDtoBuilder.bookDtoFrom;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class BookServiceTest extends IntegrationTest {
@@ -43,17 +41,15 @@ class BookServiceTest extends IntegrationTest {
     }
 
     @Test
-    void getBooks_OverNineThousandBooks() {
-        // TODO Ruben Gehring 08.02.2023: Not yet sure how to fix this... But O(# authors) queries seems wrong.
-        var author = randomAuthor().build();
-        List<Book> books = IntStream.range(0, 251)
+    void getBooks_OverTwoHundredBooks() {
+        var books = IntStream.range(0, 201)
                 .mapToObj(i -> randomBook().withRandomAuthor().build())
                 .toList();
         bookRepository.saveAll(books);
 
         var bookDtos = classUnderTest.getBooks();
 
-        List<BookDto> expectedBookDtos = books.stream()
+        var expectedBookDtos = books.stream()
                 .map(book -> bookDtoFrom(book).build())
                 .toList();
         assertThat(bookDtos).containsExactlyElementsOf(expectedBookDtos);

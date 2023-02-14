@@ -1,8 +1,9 @@
-package de.andrena.hibernateworkshop.testinfrastructure;
+package de.andrena.hibernateworkshop.test.book;
 
 import de.andrena.hibernateworkshop.persistence.book.Book;
 import de.andrena.hibernateworkshop.service.author.AuthorDto;
 import de.andrena.hibernateworkshop.service.book.BookDto;
+import de.andrena.hibernateworkshop.test.author.AuthorDtoBuilder;
 
 import java.util.UUID;
 
@@ -24,10 +25,10 @@ public final class BookDtoBuilder {
         var authorDto = book.getAuthor()
                 .map(author -> AuthorDtoBuilder.authorDtoFrom(author).build())
                 .orElse(null);
-        return fromBookMinimal(book).withAuthor(authorDto);
+        return minimalBookDtoFrom(book).withAuthor(authorDto);
     }
 
-    static BookDtoBuilder fromBookMinimal(Book book) {
+    public static BookDtoBuilder minimalBookDtoFrom(Book book) {
         return new BookDtoBuilder(book.getId(), book.getTitle(), NO_AUTHOR);
     }
 

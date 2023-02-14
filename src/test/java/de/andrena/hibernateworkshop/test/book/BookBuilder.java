@@ -1,10 +1,10 @@
-package de.andrena.hibernateworkshop.testinfrastructure;
+package de.andrena.hibernateworkshop.test.book;
 
 import de.andrena.hibernateworkshop.persistence.author.Author;
 import de.andrena.hibernateworkshop.persistence.book.Book;
 
-import static de.andrena.hibernateworkshop.testinfrastructure.AuthorBuilder.randomAuthor;
-import static de.andrena.hibernateworkshop.testinfrastructure.StringUtil.withRandomSuffix;
+import static de.andrena.hibernateworkshop.test.StringUtil.withRandomSuffix;
+import static de.andrena.hibernateworkshop.test.author.AuthorBuilder.randomAuthor;
 import static java.util.UUID.randomUUID;
 
 public final class BookBuilder {

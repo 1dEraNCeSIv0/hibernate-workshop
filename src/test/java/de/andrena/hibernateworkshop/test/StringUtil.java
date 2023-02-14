@@ -1,8 +1,11 @@
-package de.andrena.hibernateworkshop.testinfrastructure;
+package de.andrena.hibernateworkshop.test;
 
 import java.util.Random;
 
 public final class StringUtil {
+
+    private static final int ASCII_START = 0;
+    private static final int ASCII_END = 128;
 
     private StringUtil() {}
 
@@ -11,7 +14,7 @@ public final class StringUtil {
     }
 
     private static String randomAlphabetic(int length) {
-        return new Random().ints('A', 'z')
+        return new Random().ints(ASCII_START, ASCII_END)
                 .filter(StringUtil::isAlphabetic)
                 .limit(length)
                 .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
@@ -19,7 +22,7 @@ public final class StringUtil {
     }
 
     private static boolean isAlphabetic(int character) {
-        return character <= 'Z' || 'a' <= character;
+        return ('A' <= character && character <= 'Z') || ('a' <= character && character <= 'z');
     }
 
 }

@@ -5,6 +5,7 @@ import de.andrena.hibernateworkshop.persistence.author.AuthorRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.UUID;
 
 @Component
@@ -17,10 +18,24 @@ public class AuthorService {
     }
 
     @Transactional(readOnly = true)
-    public AuthorDto getAuthor(UUID id) {
+    public AuthorDto getAuthorById(UUID id) {
         return authorRepository.findById(id)
                 .map(AuthorDto::toFullDto)
                 .orElseThrow(() -> new NotFoundException("No author found for id %s.", id));
+    }
+
+    @Transactional(readOnly = true)
+    public List<AuthorDto> getAuthors() {
+        return authorRepository.findAll().stream()
+                .map(AuthorDto::toFullDto)
+                .toList();
+    }
+
+    @Transactional(readOnly = true)
+    public List<AuthorDto> getAuthorsJoinFetchBooks() {
+        return authorRepository.findAllJoinFetchBooks().stream()
+                .map(AuthorDto::toFullDto)
+                .toList();
     }
 
 }

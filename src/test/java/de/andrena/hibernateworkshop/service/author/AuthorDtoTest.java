@@ -3,7 +3,6 @@ package de.andrena.hibernateworkshop.service.author;
 import de.andrena.hibernateworkshop.persistence.author.Author;
 import de.andrena.hibernateworkshop.persistence.book.Book;
 import de.andrena.hibernateworkshop.service.book.BookDto;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -12,8 +11,6 @@ import java.util.List;
 import static java.util.UUID.randomUUID;
 import static org.assertj.core.api.Assertions.assertThat;
 
-// TODO Ruben Gehring 08.02.2023: This is disabled?
-@Disabled
 class AuthorDtoTest {
 
     @Test
