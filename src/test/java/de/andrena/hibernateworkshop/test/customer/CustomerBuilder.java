@@ -4,7 +4,8 @@ import de.andrena.hibernateworkshop.persistence.customer.Customer;
 
 import java.util.ArrayList;
 
-import static de.andrena.hibernateworkshop.test.StringUtil.withRandomSuffix;
+import static de.andrena.hibernateworkshop.test.RandomUtil.withRandomSuffix;
+import static de.andrena.hibernateworkshop.test.address.AddressBuilder.randomAddress;
 import static de.andrena.hibernateworkshop.test.author.AuthorBuilder.randomAuthor;
 import static de.andrena.hibernateworkshop.test.book.BookBuilder.randomBook;
 import static java.util.UUID.randomUUID;
@@ -18,8 +19,9 @@ public final class CustomerBuilder {
     }
 
     public static CustomerBuilder randomCustomer() {
-        var customer = new Customer(randomUUID(), withRandomSuffix("name"), withRandomSuffix("address"), new ArrayList<>(), new ArrayList<>());
-        return new CustomerBuilder(customer);
+        var address = randomAddress().build();
+        var initialCustomer = new Customer(randomUUID(), withRandomSuffix("name"), address, new ArrayList<>(), new ArrayList<>());
+        return new CustomerBuilder(initialCustomer);
     }
 
     public CustomerBuilder withRandomCheckedOutBook() {

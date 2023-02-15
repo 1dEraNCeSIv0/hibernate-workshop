@@ -7,6 +7,6 @@ import org.springframework.stereotype.Component;
 public class TestPointcuts {
 
     @Pointcut("execution(* de.andrena.hibernateworkshop.service.*.*Service.*(..))")
-    public void allServiceMethods() {}
+    void allServiceMethods() {}
 
 }

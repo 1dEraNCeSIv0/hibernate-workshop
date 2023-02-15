@@ -38,4 +38,11 @@ public class CustomerService {
                 .toList();
     }
 
+    @Transactional(readOnly = true)
+    public List<CustomerDto> getCustomersUsingEntityGraph() {
+        return customerRepository.findAllUsingEntityGraph().stream()
+                .map(CustomerDto::toDto)
+                .toList();
+    }
+
 }

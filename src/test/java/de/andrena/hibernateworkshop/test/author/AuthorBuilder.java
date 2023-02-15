@@ -1,13 +1,12 @@
 package de.andrena.hibernateworkshop.test.author;
 
 import de.andrena.hibernateworkshop.persistence.author.Author;
-import de.andrena.hibernateworkshop.persistence.book.Book;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.IntStream;
 
-import static de.andrena.hibernateworkshop.test.StringUtil.withRandomSuffix;
+import static de.andrena.hibernateworkshop.test.RandomUtil.withRandomSuffix;
+import static de.andrena.hibernateworkshop.test.address.AddressBuilder.randomAddress;
 import static de.andrena.hibernateworkshop.test.book.BookBuilder.randomBook;
 import static java.util.UUID.randomUUID;
 
@@ -20,28 +19,8 @@ public final class AuthorBuilder {
     }
 
     public static AuthorBuilder randomAuthor() {
-        var author = new Author(randomUUID(), withRandomSuffix("name"), withRandomSuffix("address"), new ArrayList<>());
-        return new AuthorBuilder(author);
-    }
-
-    public AuthorBuilder withName(String name) {
-        author.setName(name);
-        return this;
-    }
-
-    public AuthorBuilder withAddress(String address) {
-        author.setAddress(address);
-        return this;
-    }
-
-    public AuthorBuilder withBooks(List<Book> books) {
-        author.setBooks(books);
-        return this;
-    }
-
-    public AuthorBuilder withBook(Book book) {
-        author.getBooks().add(book);
-        return this;
+        var initialAuthor = new Author(randomUUID(), withRandomSuffix("name"), randomAddress().build(), new ArrayList<>());
+        return new AuthorBuilder(initialAuthor);
     }
 
     public AuthorBuilder withRandomBook() {

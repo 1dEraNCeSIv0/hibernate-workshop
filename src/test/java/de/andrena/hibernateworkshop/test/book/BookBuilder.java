@@ -3,7 +3,7 @@ package de.andrena.hibernateworkshop.test.book;
 import de.andrena.hibernateworkshop.persistence.author.Author;
 import de.andrena.hibernateworkshop.persistence.book.Book;
 
-import static de.andrena.hibernateworkshop.test.StringUtil.withRandomSuffix;
+import static de.andrena.hibernateworkshop.test.RandomUtil.withRandomSuffix;
 import static de.andrena.hibernateworkshop.test.author.AuthorBuilder.randomAuthor;
 import static java.util.UUID.randomUUID;
 
@@ -18,8 +18,8 @@ public final class BookBuilder {
     }
 
     public static BookBuilder randomBook() {
-        var book = new Book(randomUUID(), withRandomSuffix("title"), NO_AUTHOR);
-        return new BookBuilder(book);
+        var initialBook = new Book(randomUUID(), withRandomSuffix("title"), NO_AUTHOR);
+        return new BookBuilder(initialBook);
     }
 
     public BookBuilder withTitle(String title) {

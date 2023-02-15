@@ -1,47 +1,30 @@
 package de.andrena.hibernateworkshop.service.author;
 
-import de.andrena.hibernateworkshop.persistence.author.Author;
-import de.andrena.hibernateworkshop.persistence.book.Book;
-import de.andrena.hibernateworkshop.service.book.BookDto;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static java.util.UUID.randomUUID;
+import static de.andrena.hibernateworkshop.test.author.AuthorBuilder.randomAuthor;
+import static de.andrena.hibernateworkshop.test.author.AuthorDtoBuilder.authorDtoFrom;
+import static de.andrena.hibernateworkshop.test.author.AuthorDtoBuilder.minimalAuthorDtoFrom;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class AuthorDtoTest {
 
     @Test
     void toMinimalDto() {
-        var authorId = randomUUID();
-        var bookId = randomUUID();
-
-        var author = new Author(authorId, "name", "address", new ArrayList<>());
-        var book = new Book(bookId, "title", author);
-        author.getBooks().add(book);
+        var author = randomAuthor().withRandomBook().build();
 
         var authorDto = AuthorDto.toMinimalDto(author);
 
-        assertThat(authorDto).isEqualTo(new AuthorDto(authorId, "name", "address", List.of()));
+        assertThat(authorDto).isEqualTo(minimalAuthorDtoFrom(author).build());
     }
 
     @Test
     void toFullDto() {
-        var authorId = randomUUID();
-        var bookId = randomUUID();
-
-        var author = new Author(authorId, "name", "address", new ArrayList<>());
-        var book = new Book(bookId, "title", author);
-        author.getBooks().add(book);
-
-        var expectedBook = new BookDto(bookId, "title", null);
-        var expectedAuthor = new AuthorDto(authorId, "name", "address", List.of(expectedBook));
+        var author = randomAuthor().withRandomBook().build();
 
         var authorDto = AuthorDto.toFullDto(author);
 
-        assertThat(authorDto).isEqualTo(expectedAuthor);
+        assertThat(authorDto).isEqualTo(authorDtoFrom(author).build());
     }
 
 }

@@ -153,13 +153,13 @@ class AuthorServiceTest extends IntegrationTest {
     }
 
     @Test
-    void getAuthorsJoinFetchBooks_OverNineThousandAuthorsWithOneBookEach() {
+    void getAuthorsUsingQueryAnnotation_OverNineThousandAuthorsWithOneBookEach() {
         var authors = IntStream.range(0, 9001)
                 .mapToObj(i -> randomAuthor().withRandomBook().build())
                 .toList();
         authorRepository.saveAll(authors);
 
-        var authorDto = classUnderTest.getAuthorsJoinFetchBooks();
+        var authorDto = classUnderTest.getAuthorsUsingQueryAnnotation();
 
         var expectedAuthorDtos = authors.stream()
                 .map(author -> authorDtoFrom(author).build())

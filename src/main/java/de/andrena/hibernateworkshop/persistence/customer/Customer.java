@@ -1,5 +1,6 @@
 package de.andrena.hibernateworkshop.persistence.customer;
 
+import de.andrena.hibernateworkshop.persistence.address.Address;
 import de.andrena.hibernateworkshop.persistence.author.Author;
 import de.andrena.hibernateworkshop.persistence.book.Book;
 import jakarta.persistence.*;
@@ -14,29 +15,25 @@ public class Customer {
     private UUID id;
 
     private String name;
-    private String address;
+
+    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.REMOVE})
+    private Address address;
 
     @OneToMany
     @JoinTable(
             joinColumns = @JoinColumn(name = "customer_id"),
             inverseJoinColumns = @JoinColumn(name = "book_id"))
-    // TODO Ruben Gehring 08.02.2023: Lever 3
-//    @Fetch(FetchMode.JOIN)
-//    @BatchSize(size = 100)
     private List<Book> checkedOutBooks;
 
     @ManyToMany
     @JoinTable(
             joinColumns = @JoinColumn(name = "customer_id"),
             inverseJoinColumns = @JoinColumn(name = "author_id"))
-    // TODO Ruben Gehring 08.02.2023: Lever 4
-//    @Fetch(FetchMode.JOIN)
-//    @BatchSize(size = 100)
     private List<Author> favoriteAuthors;
 
     public Customer() {}
 
-    public Customer(UUID id, String name, String address, List<Book> checkedOutBooks, List<Author> favoriteAuthors) {
+    public Customer(UUID id, String name, Address address, List<Book> checkedOutBooks, List<Author> favoriteAuthors) {
         this.id = id;
         this.name = name;
         this.address = address;
@@ -62,11 +59,11 @@ public class Customer {
         return this;
     }
 
-    public String getAddress() {
+    public Address getAddress() {
         return address;
     }
 
-    public Customer setAddress(String address) {
+    public Customer setAddress(Address address) {
         this.address = address;
         return this;
     }

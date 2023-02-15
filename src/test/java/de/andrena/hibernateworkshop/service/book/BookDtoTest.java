@@ -1,44 +1,30 @@
 package de.andrena.hibernateworkshop.service.book;
 
-import de.andrena.hibernateworkshop.persistence.author.Author;
-import de.andrena.hibernateworkshop.persistence.book.Book;
-import de.andrena.hibernateworkshop.service.author.AuthorDto;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static java.util.UUID.randomUUID;
+import static de.andrena.hibernateworkshop.test.book.BookBuilder.randomBook;
+import static de.andrena.hibernateworkshop.test.book.BookDtoBuilder.bookDtoFrom;
+import static de.andrena.hibernateworkshop.test.book.BookDtoBuilder.minimalBookDtoFrom;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class BookDtoTest {
 
     @Test
     void toFullDto() {
-        var bookId = randomUUID();
-        var authorId = randomUUID();
-
-        var author = new Author(authorId, "name", "address", new ArrayList<>());
-        var book = new Book(bookId, "title", author);
-        author.getBooks().add(book);
+        var book = randomBook().withRandomAuthor().build();
 
         var bookDto = BookDto.toFullDto(book);
 
-        var expectedBookDto = new BookDto(bookId, "title", new AuthorDto(authorId, "name", "address", List.of()));
-        assertThat(bookDto).isEqualTo(expectedBookDto);
+        assertThat(bookDto).isEqualTo(bookDtoFrom(book).build());
     }
 
     @Test
     void toMinimalDto() {
-        var bookId = randomUUID();
-
-        var author = new Author(randomUUID(), "name", "address", new ArrayList<>());
-        var book = new Book(bookId, "title", author);
-        author.getBooks().add(book);
+        var book = randomBook().withRandomAuthor().build();
 
         var bookDto = BookDto.toMinimalDto(book);
 
-        assertThat(bookDto).isEqualTo(new BookDto(bookId, "title", null));
+        assertThat(bookDto).isEqualTo(minimalBookDtoFrom(book).build());
     }
 
 }

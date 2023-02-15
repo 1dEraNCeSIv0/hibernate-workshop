@@ -11,8 +11,8 @@ public interface AuthorRepository extends JpaRepository<Author, UUID> {
     @Query("""
             SELECT a
             FROM Author a
-            JOIN FETCH a.books
+            JOIN a.books
             """)
-    List<Author> findAllJoinFetchBooks();
+    List<Author> findAllUsingQueryAnnotation();
 
 }

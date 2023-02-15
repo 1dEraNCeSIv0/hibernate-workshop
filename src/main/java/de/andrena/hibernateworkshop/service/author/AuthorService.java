@@ -32,8 +32,8 @@ public class AuthorService {
     }
 
     @Transactional(readOnly = true)
-    public List<AuthorDto> getAuthorsJoinFetchBooks() {
-        return authorRepository.findAllJoinFetchBooks().stream()
+    public List<AuthorDto> getAuthorsUsingQueryAnnotation() {
+        return authorRepository.findAllUsingQueryAnnotation().stream()
                 .map(AuthorDto::toFullDto)
                 .toList();
     }
