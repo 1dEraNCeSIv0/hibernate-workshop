@@ -17,12 +17,10 @@ public class Book {
 
     private String title;
 
-    // TODO Ruben Gehring 08.02.2023: Consider lazying this for performance reasons.
     @ManyToOne(cascade = CascadeType.MERGE)
     private Author author;
 
-    public Book() {
-    }
+    public Book() {}
 
     public Book(UUID id, String title, Author author) {
         this.id = id;

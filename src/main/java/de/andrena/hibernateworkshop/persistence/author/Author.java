@@ -4,6 +4,7 @@ import de.andrena.hibernateworkshop.persistence.address.Address;
 import de.andrena.hibernateworkshop.persistence.book.Book;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -19,7 +20,7 @@ public class Author {
     private Address address;
 
     @OneToMany(cascade = {CascadeType.MERGE, CascadeType.REMOVE}, mappedBy = "author")
-    private List<Book> books;
+    private List<Book> books = new ArrayList<>();
 
     public Author() {}
 

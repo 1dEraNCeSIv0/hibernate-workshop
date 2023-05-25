@@ -24,10 +24,12 @@ public class TestProfilingExtension implements InvocationInterceptor {
             ExtensionContext extensionContext)
             throws Throwable {
 
-        invocation.proceed();
-
-        var totalRepetitions = 1;
-        printProfilingInfo(extensionContext, totalRepetitions);
+        try {
+            invocation.proceed();
+        } finally {
+            var totalRepetitions = 1;
+            printProfilingInfo(extensionContext, totalRepetitions);
+        }
     }
 
     @Override
@@ -37,10 +39,12 @@ public class TestProfilingExtension implements InvocationInterceptor {
             ExtensionContext extensionContext)
             throws Throwable {
 
-        invocation.proceed();
-
-        var totalRepetitions = invocationContext.getExecutable().getAnnotation(RepeatedTest.class).value();
-        printProfilingInfo(extensionContext, totalRepetitions);
+        try {
+            invocation.proceed();
+        } finally {
+            var totalRepetitions = invocationContext.getExecutable().getAnnotation(RepeatedTest.class).value();
+            printProfilingInfo(extensionContext, totalRepetitions);
+        }
     }
 
     private void printProfilingInfo(ExtensionContext extensionContext, int totalRepetitions) {

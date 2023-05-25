@@ -21,13 +21,12 @@ public class TestSqlLoggingAspect {
 
     @Around("TestPointcuts.allServiceMethods()")
     Object showSqlLogs(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
-        sqlLogLevel(LogLevel.TRACE);
-
-        Object result = proceedingJoinPoint.proceed();
-
-        sqlLogLevel(LogLevel.INFO);
-
-        return result;
+        try {
+            sqlLogLevel(LogLevel.TRACE);
+            return proceedingJoinPoint.proceed();
+        } finally {
+            sqlLogLevel(LogLevel.INFO);
+        }
     }
 
     private void sqlLogLevel(LogLevel level) {

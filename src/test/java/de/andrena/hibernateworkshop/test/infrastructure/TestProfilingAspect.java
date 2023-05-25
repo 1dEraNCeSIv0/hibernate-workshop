@@ -19,13 +19,12 @@ public class TestProfilingAspect {
 
     @Around("TestPointcuts.allServiceMethods()")
     Object profile(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
-        stopWatchControl.start(proceedingJoinPoint.getSignature().toShortString());
-
-        Object result = proceedingJoinPoint.proceed();
-
-        stopWatchControl.stop();
-
-        return result;
+        try {
+            stopWatchControl.start(proceedingJoinPoint.getSignature().toShortString());
+            return proceedingJoinPoint.proceed();
+        } finally {
+            stopWatchControl.stop();
+        }
     }
 
 }

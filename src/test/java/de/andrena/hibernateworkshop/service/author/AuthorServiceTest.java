@@ -1,13 +1,15 @@
 package de.andrena.hibernateworkshop.service.author;
 
+import de.andrena.hibernateworkshop.persistence.author.Author;
 import de.andrena.hibernateworkshop.test.IntegrationTest;
+import de.andrena.hibernateworkshop.test.author.AuthorDtoCreator;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.stream.IntStream;
 
-import static de.andrena.hibernateworkshop.test.author.AuthorBuilder.randomAuthor;
-import static de.andrena.hibernateworkshop.test.author.AuthorDtoBuilder.authorDtoFrom;
+import static de.andrena.hibernateworkshop.test.author.AuthorCreator.randomAuthorBuilder;
+import static de.andrena.hibernateworkshop.test.author.AuthorDtoCreator.authorDtoFrom;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class AuthorServiceTest extends IntegrationTest {
@@ -15,79 +17,67 @@ class AuthorServiceTest extends IntegrationTest {
     @Autowired
     private AuthorService classUnderTest;
 
-    // TODO: 06.02.2023 Go over all tests, ensure consistent style
     @Test
     void getAuthorById_OneBook() {
-        var author = randomAuthor().withRandomBook().build();
+        var author = defaultAuthor();
         authorRepository.save(author);
 
         var authorDto = classUnderTest.getAuthorById(author.getId());
 
-        var expectedAuthorDto = authorDtoFrom(author).build();
-        assertThat(authorDto).isEqualTo(expectedAuthorDto);
+        assertThat(authorDto).isEqualTo(authorDtoFrom(author));
     }
 
     @Test
     void getAuthorById_TwoBooks() {
-        var author = randomAuthor()
-                .withRandomBook()
-                .withRandomBook()
-                .build();
+        var author = defaultAuthor(2);
         authorRepository.save(author);
 
         var authorDto = classUnderTest.getAuthorById(author.getId());
 
-        var expectedAuthorDto = authorDtoFrom(author).build();
-        assertThat(authorDto).isEqualTo(expectedAuthorDto);
+        assertThat(authorDto).isEqualTo(authorDtoFrom(author));
     }
 
     @Test
     void getAuthorById_OverTwoHundredBooks() {
-        var authorBuilder = randomAuthor();
-        IntStream.range(0, 201).forEach(i -> authorBuilder.withRandomBook());
-        var author = authorBuilder.build();
-
+        var author = defaultAuthor(201);
         authorRepository.save(author);
 
         var authorDto = classUnderTest.getAuthorById(author.getId());
 
-        var expectedAuthorDto = authorDtoFrom(author).build();
-        assertThat(authorDto).isEqualTo(expectedAuthorDto);
+        assertThat(authorDto).isEqualTo(authorDtoFrom(author));
     }
 
     @Test
     void getAuthors_OneAuthorWithOneBook() {
-        var author = randomAuthor().withRandomBook().build();
+        var author = defaultAuthor();
         authorRepository.save(author);
 
         var authorDto = classUnderTest.getAuthors();
 
-        var expectedAuthorDto = authorDtoFrom(author).build();
-        assertThat(authorDto).containsExactly(expectedAuthorDto);
+        assertThat(authorDto).containsExactly(authorDtoFrom(author));
     }
 
     @Test
     void getAuthors_OneAuthorWithTwoBooks() {
-        var author = randomAuthor().withRandomBook().withRandomBook().build();
+        var author = defaultAuthor(2);
         authorRepository.save(author);
 
         var authorDto = classUnderTest.getAuthors();
 
-        var expectedAuthorDto = authorDtoFrom(author).build();
-        assertThat(authorDto).containsExactly(expectedAuthorDto);
+        assertThat(authorDto).containsExactly(authorDtoFrom(author));
     }
 
     @Test
     void getAuthors_TwoAuthorsWithOneBooksEach() {
         var authors = IntStream.range(0, 2)
-                .mapToObj(i -> randomAuthor().withRandomBook().build())
+                .mapToObj(i -> defaultAuthor())
                 .toList();
         authorRepository.saveAll(authors);
 
         var authorDto = classUnderTest.getAuthors();
 
         var expectedAuthorDtos = authors.stream()
-                .map(author -> authorDtoFrom(author).build())
+                .map(AuthorDtoCreator::authorDtoFrom)
                 .toList();
         assertThat(authorDto).containsExactlyElementsOf(expectedAuthorDtos);
     }
@@ -95,14 +85,14 @@ class AuthorServiceTest extends IntegrationTest {
     @Test
     void getAuthors_OverTwoHundredAuthorsWithOneBooksEach() {
         var authors = IntStream.range(0, 201)
-                .mapToObj(i -> randomAuthor().withRandomBook().build())
+                .mapToObj(i -> defaultAuthor())
                 .toList();
         authorRepository.saveAll(authors);
 
         var authorDto = classUnderTest.getAuthors();
 
         var expectedAuthorDtos = authors.stream()
-                .map(author -> authorDtoFrom(author).build())
+                .map(AuthorDtoCreator::authorDtoFrom)
                 .toList();
         assertThat(authorDto).containsExactlyElementsOf(expectedAuthorDtos);
     }
@@ -110,14 +100,14 @@ class AuthorServiceTest extends IntegrationTest {
     @Test
     void getAuthors_OverTwoHundredAuthorsWithOverTwoHundredBooksEach() {
         var authors = IntStream.range(0, 201)
-                .mapToObj(i -> randomAuthor().withRandomBooks(201).build())
+                .mapToObj(i -> defaultAuthor(201))
                 .toList();
         authorRepository.saveAll(authors);
 
         var authorDto = classUnderTest.getAuthors();
 
         var expectedAuthorDtos = authors.stream()
-                .map(author -> authorDtoFrom(author).build())
+                .map(AuthorDtoCreator::authorDtoFrom)
                 .toList();
         assertThat(authorDto).containsExactlyElementsOf(expectedAuthorDtos);
     }
@@ -125,14 +115,14 @@ class AuthorServiceTest extends IntegrationTest {
     @Test
     void getAuthors_FiftyAuthorsWithTwentyBooksEach() {
         var authors = IntStream.range(0, 50)
-                .mapToObj(i -> randomAuthor().withRandomBooks(20).build())
+                .mapToObj(i -> defaultAuthor(20))
                 .toList();
         authorRepository.saveAll(authors);
 
         var authorDto = classUnderTest.getAuthors();
 
         var expectedAuthorDtos = authors.stream()
-                .map(author -> authorDtoFrom(author).build())
+                .map(AuthorDtoCreator::authorDtoFrom)
                 .toList();
         assertThat(authorDto).containsExactlyElementsOf(expectedAuthorDtos);
     }
@@ -140,14 +130,14 @@ class AuthorServiceTest extends IntegrationTest {
     @Test
     void getAuthors_OverNineThousandAuthorsWithOneBookEach() {
         var authors = IntStream.range(0, 9001)
-                .mapToObj(i -> randomAuthor().withRandomBook().build())
+                .mapToObj(i -> defaultAuthor())
                 .toList();
         authorRepository.saveAll(authors);
 
         var authorDto = classUnderTest.getAuthors();
 
         var expectedAuthorDtos = authors.stream()
-                .map(author -> authorDtoFrom(author).build())
+                .map(AuthorDtoCreator::authorDtoFrom)
                 .toList();
         assertThat(authorDto).containsExactlyElementsOf(expectedAuthorDtos);
     }
@@ -155,16 +145,24 @@ class AuthorServiceTest extends IntegrationTest {
     @Test
     void getAuthorsUsingQueryAnnotation_OverNineThousandAuthorsWithOneBookEach() {
         var authors = IntStream.range(0, 9001)
-                .mapToObj(i -> randomAuthor().withRandomBook().build())
+                .mapToObj(i -> defaultAuthor())
                 .toList();
         authorRepository.saveAll(authors);
 
         var authorDto = classUnderTest.getAuthorsUsingQueryAnnotation();
 
         var expectedAuthorDtos = authors.stream()
-                .map(author -> authorDtoFrom(author).build())
+                .map(AuthorDtoCreator::authorDtoFrom)
                 .toList();
         assertThat(authorDto).containsExactlyElementsOf(expectedAuthorDtos);
+    }
+
+    private static Author defaultAuthor() {
+        return randomAuthorBuilder().withRandomBook().build();
+    }
+
+    private static Author defaultAuthor(int numberOfBooks) {
+        return randomAuthorBuilder().withRandomBooks(numberOfBooks).build();
     }
 
 }

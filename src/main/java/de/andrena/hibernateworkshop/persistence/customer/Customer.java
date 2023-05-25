@@ -5,6 +5,7 @@ import de.andrena.hibernateworkshop.persistence.author.Author;
 import de.andrena.hibernateworkshop.persistence.book.Book;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,13 +24,13 @@ public class Customer {
     @JoinTable(
             joinColumns = @JoinColumn(name = "customer_id"),
             inverseJoinColumns = @JoinColumn(name = "book_id"))
-    private List<Book> checkedOutBooks;
+    private List<Book> checkedOutBooks = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(
             joinColumns = @JoinColumn(name = "customer_id"),
             inverseJoinColumns = @JoinColumn(name = "author_id"))
-    private List<Author> favoriteAuthors;
+    private List<Author> favoriteAuthors = new ArrayList<>();
 
     public Customer() {}
 
